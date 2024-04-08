@@ -14,9 +14,9 @@ class User(AbstractUser):
         ('O', 'Other')
     )
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default="")
-    sign_up_at = models.DateTimeField(default=timezone.now())
-    old = models.IntegerField(validators=[MaxValueValidator(100), MinValueValidator(0)], default=None, null=True, blank=True)
-    height = models.IntegerField(validators=[MinValueValidator(0)], default=None, null=True, blank=True)
-    weight = models.IntegerField(validators=[MinValueValidator(0)], default=None, null=True, blank=True)
+    sign_up_at = models.DateTimeField(auto_now_add=True)
+    old = models.IntegerField(validators=[MaxValueValidator(100), MinValueValidator(0)], default=0)
+    height = models.IntegerField(validators=[MinValueValidator(0)], null=True, default=0)
+    weight = models.IntegerField(validators=[MinValueValidator(0)], default=0)
 
 

@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('comments', '0001_initial'),
+        ('posts', '0009_alter_post_created_at'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='comment',
+            model_name='post',
             name='created_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 4, 7, 14, 45, 21, 520079, tzinfo=datetime.timezone.utc)),
+            field=models.DateTimeField(default=datetime.datetime(2024, 4, 7, 14, 45, 21, 514093, tzinfo=datetime.timezone.utc)),
         ),
     ]
