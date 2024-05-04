@@ -4,10 +4,8 @@ from likes.models import Like
 from comments.models import Comment
 from likes.serializers import LikeSerializer
 from rest_framework import status
-from rest_framework.decorators import api_view, renderer_classes
-from rest_framework.renderers import JSONRenderer
+from rest_framework.decorators import api_view
 @api_view(['GET', 'POST'])
-@renderer_classes([JSONRenderer])
 def like_list_api_view(request):
     if request.method == 'GET':
         likes = Like.objects.all()
@@ -20,7 +18,6 @@ def like_list_api_view(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 @api_view(['GET', 'PUT','DELETE'])
-@renderer_classes([JSONRenderer])
 def like_retrieve_api_view(request, pk):
     try:
         like = Like.objects.get(pk=pk)

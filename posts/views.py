@@ -2,10 +2,8 @@ from rest_framework.response import Response
 from posts.models import Post
 from posts.serializers import PostSerializer
 from rest_framework import status
-from rest_framework.decorators import api_view, renderer_classes
-from rest_framework.renderers import JSONRenderer
+from rest_framework.decorators import api_view
 @api_view(['GET', 'POST'])
-@renderer_classes([JSONRenderer])
 def post_list_api_view(request):
     if request.method == 'GET':
         posts = Post.objects.all()
@@ -18,7 +16,6 @@ def post_list_api_view(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 @api_view(['GET', 'PUT','DELETE'])
-@renderer_classes([JSONRenderer])
 def post_retrieve_api_view(request, pk):
     try:
         post = Post.objects.get(pk=pk)

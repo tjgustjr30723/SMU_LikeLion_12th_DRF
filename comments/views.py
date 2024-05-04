@@ -5,10 +5,8 @@ from posts.models import Post
 from comments.models import Comment
 from comments.serializers import CommentSerializer
 from rest_framework import status
-from rest_framework.decorators import api_view, renderer_classes
-from rest_framework.renderers import JSONRenderer
+from rest_framework.decorators import api_view
 @api_view(['GET', 'POST'])
-@renderer_classes([JSONRenderer])
 def comment_list_api_view(request):
     if request.method == 'GET':
         comments = Comment.objects.all()
@@ -21,7 +19,6 @@ def comment_list_api_view(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 @api_view(['GET', 'PUT','DELETE'])
-@renderer_classes([JSONRenderer])
 def comment_retrieve_api_view(request, pk):
     try:
         comment = Comment.objects.get(pk=pk)

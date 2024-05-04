@@ -3,10 +3,8 @@ from rest_framework.response import Response
 from users.models import User
 from users.serializers import UserSerializer
 from rest_framework import status
-from rest_framework.decorators import api_view, renderer_classes
-from rest_framework.renderers import JSONRenderer
+from rest_framework.decorators import api_view
 @api_view(['GET', 'POST'])
-@renderer_classes([JSONRenderer])
 def user_list_api_view(request):
     if request.method == 'GET':
         users = User.objects.all()
@@ -19,7 +17,6 @@ def user_list_api_view(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 @api_view(['GET', 'PUT','DELETE'])
-@renderer_classes([JSONRenderer])
 def user_retrieve_api_view(request, pk):
     try:
         user = User.objects.get(pk=pk)
