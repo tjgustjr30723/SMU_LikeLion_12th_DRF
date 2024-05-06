@@ -16,9 +16,9 @@ def post_list_api_view(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 @api_view(['GET', 'PUT','DELETE'])
-def post_retrieve_api_view(request, pk):
+def post_retrieve_api_view(request, post_id):
     try:
-        post = Post.objects.get(pk=pk)
+        post = Post.objects.get(pk=post_id)
     except Post.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     

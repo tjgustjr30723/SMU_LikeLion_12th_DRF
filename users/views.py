@@ -17,9 +17,9 @@ def user_list_api_view(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 @api_view(['GET', 'PUT','DELETE'])
-def user_retrieve_api_view(request, pk):
+def user_retrieve_api_view(request, user_id):
     try:
-        user = User.objects.get(pk=pk)
+        user = User.objects.get(pk=user_id)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     

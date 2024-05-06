@@ -19,9 +19,9 @@ def comment_list_api_view(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 @api_view(['GET', 'PUT','DELETE'])
-def comment_retrieve_api_view(request, pk):
+def comment_retrieve_api_view(request, comment_id):
     try:
-        comment = Comment.objects.get(pk=pk)
+        comment = Comment.objects.get(pk=comment_id)
     except Comment.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
