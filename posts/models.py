@@ -12,4 +12,5 @@ class Post(models.Model):
     background_music = models.CharField(max_length=100, blank=True)
     attachment_link = models.URLField(max_length=200,blank=True)
     location = models.CharField(max_length=50, blank=True)
+    likes = models.ManyToManyField(User, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts',null = True)

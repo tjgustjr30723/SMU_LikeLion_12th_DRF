@@ -1,4 +1,4 @@
-from django.shortcuts import render
+
 from rest_framework.response import Response
 from users.models import User
 from posts.models import Post
@@ -14,9 +14,9 @@ def comment_list_api_view(request):
         return Response(serializer.data)
     
     elif request.method == 'POST':
-        serializer = CommentSerializer(data=request.data, user=request.user, post=request.post)
+        serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=request.user,post=request.post)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 @api_view(['GET', 'PUT','DELETE'])
 def comment_retrieve_api_view(request, comment_id):
@@ -32,7 +32,7 @@ def comment_retrieve_api_view(request, comment_id):
     elif request.method == 'PUT':
         serializer = CommentSerializer(comment, data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=request.user,post=request.post)
             return Response(serializer.data)
         return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
     

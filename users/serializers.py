@@ -8,7 +8,11 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username','weight', 'posts_num']
+        fields = ['id', 'username','password','weight', 'posts_num']
 
     def get_posts_num(self, obj):
         return Post.objects.filter(user=obj).count()
+    
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)
+    

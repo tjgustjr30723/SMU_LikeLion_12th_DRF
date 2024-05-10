@@ -21,7 +21,6 @@ from django.conf import settings
 urlpatterns = [
     path('users/', include('users.urls')), #users로 시작하는 모든것은 user.urls에서 찾아보라 라는 의미
     path('posts/', include('posts.urls')),
-    path('comments/', include('comments.urls')),
-    path('likes/', include('likes.urls')),   
+    path('comments/', include('comments.urls')), 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

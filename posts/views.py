@@ -11,11 +11,12 @@ def post_list_api_view(request):
         return Response(serializer.data)
     
     elif request.method == 'POST':
-        serializer = PostSerializer(data=request.data, user=request.user)
+        serializer = PostSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-@api_view(['GET', 'PUT','DELETE'])
+        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['GET', 'PUT','PATCH','DELETE'])
 def post_retrieve_api_view(request, post_id):
     try:
         post = Post.objects.get(pk=post_id)
@@ -29,10 +30,15 @@ def post_retrieve_api_view(request, post_id):
     elif request.method == 'PUT':
         serializer = PostSerializer(post, data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=request.user)
             return Response(serializer.data)
         return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
-    
+    elif request.method == 'PATCH':
+        serializer = PostSerializer(post, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

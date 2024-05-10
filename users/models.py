@@ -4,8 +4,6 @@ from django.core.validators import MinValueValidator
 from django.core.validators import MaxValueValidator
 from django.utils import timezone
 class User(AbstractUser):
-    username = models.CharField(max_length=50, unique=True)
-    password = models.CharField(max_length=100, unique=True)
     email = models.EmailField(max_length = 254, unique=True)
     GENDER_CHOICES = (
         ('M', 'Male'),
