@@ -43,7 +43,11 @@ INSTALLED_APPS = [
     'comments',
     'rest_framework_simplejwt',
 ]
-
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),  # 액세스 토큰의 수명을 30일로 설정
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),  # 리프레시 토큰의 수명을 1년으로 설정
+}
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
