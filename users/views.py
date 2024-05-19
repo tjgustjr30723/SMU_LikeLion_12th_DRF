@@ -3,7 +3,8 @@ from rest_framework.response import Response
 from users.models import User
 from users.serializers import UserSerializer
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, action
+# from rest_framework.generics import CreateModelMixin
 from django.contrib.auth.hashers import check_password
 from rest_framework_simplejwt.tokens import RefreshToken
 import string
@@ -13,7 +14,7 @@ def user_list_api_view(request):
     if request.method == 'GET':
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     #회원가입
     elif request.method == 'POST':
         serializer = UserSerializer(data=request.data)
@@ -21,22 +22,13 @@ def user_list_api_view(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#프로필 
-@api_view(['GET'])
-def user_retrieve_api_view(request, user_id):
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    #프로필 조회
-    if request.method == 'GET':
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
-#프로필 수정 및 삭제
-@api_view(['PATCH', 'DELETE'])
+#프로필 보기, 수정 및 삭제
+@api_view(['GET','PATCH', 'DELETE'])
 def profile_api_view(request):
     user = request.user
-    
+    if request.method == 'GET':
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     if request.method == 'PATCH':
         serializer = UserSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
@@ -48,6 +40,7 @@ def profile_api_view(request):
     elif request.method == 'DELETE':
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
 #로그인
 @api_view(['POST'])
 def login_api_view(request):
@@ -107,3 +100,4 @@ def recreate_password():
     letters_and_digits = string.ascii_letters + string.digits
     new_password = ''.join(random.choice(letters_and_digits) for i in range(8))
     return new_password
+

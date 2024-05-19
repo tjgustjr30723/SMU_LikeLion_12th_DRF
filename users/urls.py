@@ -6,7 +6,6 @@ app_name = 'users'
 
 urlpatterns = [
     path('',views.user_list_api_view, name='user-list'), 
-    path('<int:user_id>/',views.user_retrieve_api_view, name='user-retrieve'),
     path('profile/',views.profile_api_view, name='profile_api_view'), 
     path('login/',views.login_api_view, name='login_api_view'), 
     path('change_password/',views.change_password_api_view, name='change_password_api_view_api_view'), 

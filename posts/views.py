@@ -63,7 +63,7 @@ def post_retrieve_api_view(request, post_id):
             return Response({'message': 'You are not authorized'}, status=status.HTTP_403_FORBIDDEN)
 
 #좋아요 
-@api_view(['POST'])
+@api_view(['GET'])
 def likes_api_view(request, post_id):
         post = Post.objects.get(pk=post_id)
         user = request.user
@@ -74,11 +74,10 @@ def likes_api_view(request, post_id):
         return Response({'message': '게시글을 좋아요 했습니다.'}, status=status.HTTP_200_OK)
 #특정 유저 게시글 목록 나열()
 @api_view(['GET'])
-def users_post_api_view(request, user_id):
-    try:
-        user = User.objects.get(pk=user_id)  # 해당 유저를 가져옵니다.
-        posts = user.posts.all()
+def users_post_api_view(request):
+    if request.user.is_authenticated:
+        posts = request.user.posts.all()  # 사용자가 좋아요 한 글을 가져옵니다
         serializer = PostSerializer(posts, many=True)
-        return Response(serializer.data)
-    except User.DoesNotExist:
-        return Response({'message': 'User does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response({'message': 'Authentication required'}, status=status.HTTP_401_UNAUTHORIZED)

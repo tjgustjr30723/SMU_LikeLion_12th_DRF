@@ -53,7 +53,7 @@ def comment_retrieve_api_view(request, comment_id):
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 #댓글 좋아요
-@api_view(['POST'])
+@api_view(['GET'])
 def likes_api_view(request, comment_id):
         try:
             comment = Comment.objects.get(pk=comment_id)

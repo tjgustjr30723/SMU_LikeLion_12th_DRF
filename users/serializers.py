@@ -9,7 +9,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username','password','email','weight', 'posts_num']
-
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
     def get_posts_num(self, obj):
         return Post.objects.filter(user=obj).count()
     
