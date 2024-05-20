@@ -3,12 +3,12 @@ from rest_framework.response import Response
 from users.models import User
 from users.serializers import UserSerializer
 from rest_framework import status
-from rest_framework.decorators import api_view, action
-# from rest_framework.generics import CreateModelMixin
+from rest_framework.decorators import api_view
 from django.contrib.auth.hashers import check_password
 from rest_framework_simplejwt.tokens import RefreshToken
 import string
 import random
+# 유서 생성, 확인
 @api_view(['GET', 'POST'])
 def user_list_api_view(request):
     if request.method == 'GET':
@@ -22,7 +22,8 @@ def user_list_api_view(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#프로필 보기, 수정 및 삭제
+# 프로필 보기, 수정 및 삭제
+
 @api_view(['GET','PATCH', 'DELETE'])
 def profile_api_view(request):
     user = request.user
@@ -41,7 +42,7 @@ def profile_api_view(request):
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-#로그인
+# 로그인
 @api_view(['POST'])
 def login_api_view(request):
     if request.method =='POST':
@@ -65,7 +66,7 @@ def login_api_view(request):
         )
     else:
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
-#비밀번호 변경
+# 비밀번호 변경
 @api_view(['POST'])
 def change_password_api_view(request):
     user = request.user 
@@ -100,4 +101,3 @@ def recreate_password():
     letters_and_digits = string.ascii_letters + string.digits
     new_password = ''.join(random.choice(letters_and_digits) for i in range(8))
     return new_password
-
