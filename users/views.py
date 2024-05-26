@@ -23,7 +23,6 @@ def user_list_api_view(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 # 프로필 보기, 수정 및 삭제
-
 @api_view(['GET','PATCH', 'DELETE'])
 def profile_api_view(request):
     user = request.user
@@ -101,3 +100,4 @@ def recreate_password():
     letters_and_digits = string.ascii_letters + string.digits
     new_password = ''.join(random.choice(letters_and_digits) for i in range(8))
     return new_password
+
