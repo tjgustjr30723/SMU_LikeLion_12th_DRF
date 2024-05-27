@@ -7,7 +7,7 @@ from comments.serializers import CommentSerializer
 from rest_framework import status, viewsets
 from rest_framework.decorators import api_view, action
 from .serializers import CommentSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from .permissions import IsOwner
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -41,7 +41,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     #댓글 좋아요    
-    @action(methods=['get'],detail=True)
+    @action(methods=['get'],detail=True, permission_classes=[AllowAny])
     def like(self, request, pk=None):
         comment = self.get_object()
         user = request.user
