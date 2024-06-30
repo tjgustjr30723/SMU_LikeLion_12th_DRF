@@ -11,13 +11,13 @@ from .permissions import IsOwnerOrReadOnly
 class PostListCreateAPIView(ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-
+#게시글 확인, 수정, 삭제
 class PostRetrieveAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     lookup_field = 'id'
     lookup_url_kwarg = 'post_id'
-    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+    permission_classes = [IsOwnerOrReadOnly]
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -32,6 +32,7 @@ class LikesAPIView(ListAPIView):
     serializer_class = PostSerializer
     lookup_field = 'id'
     lookup_url_kwarg = 'post_id'
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
     def get(self, request, *args, **kwargs):
         post = self.get_object()
         user = request.user
